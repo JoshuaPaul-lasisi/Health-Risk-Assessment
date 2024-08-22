@@ -1,1 +1,1 @@
-# Health-Risk-Assessment
+# Health Risk Assessment
