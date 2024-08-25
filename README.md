@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project predicts the 10-year risk of developing coronary heart disease (CHD) using demographic, lifestyle, and medical data. It involves data cleaning, exploratory data analysis, feature scaling, and evaluating various classification models. The Gradient Boosting Classifier was identified as the optimal model based on performance metrics.
+This project predicts the 10-year risk of developing coronary heart disease (CHD) using demographic, lifestyle, and medical data. It involves data cleaning, exploratory data analysis, feature scaling, and evaluating various classification models. The Gradient Boosting Classifier was identified as the optimal model based on performance metrics. Dataset was gotten from https://www.kaggle.com/datasets/aasheesh200/framingham-heart-study-dataset
 
 ## Features
 
