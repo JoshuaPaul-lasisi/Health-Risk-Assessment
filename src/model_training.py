@@ -3,10 +3,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import accuracy_score
 import pickle
-import os
-
-def run_another_script():
-    os.system('data_processing.py')
 
 def load_clean_data(file_path):
     # Load the preprocessed data
@@ -37,6 +33,5 @@ def train_model(df):
     return model
 
 if __name__ == "__main__":
-    run_another_script()
     data = load_clean_data("../data/processed/health_clean.csv")
     train_model(data)
