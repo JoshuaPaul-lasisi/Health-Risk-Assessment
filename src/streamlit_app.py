@@ -1,6 +1,12 @@
 import streamlit as st
 import pickle
 import pandas as pd
+import os
+
+def run_another_script():
+    os.system('model_evaluation.py')
+
+run_another_script()
 
 # Load the trained model
 with open("../models/health_risk_model.pkl", "rb") as file:

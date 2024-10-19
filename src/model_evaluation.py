@@ -1,6 +1,10 @@
 import pickle
 import pandas as pd
 from sklearn.metrics import classification_report
+import os
+
+def run_another_script():
+    os.system('model_training.py')
 
 def load_model(model_path):
     with open(model_path, 'rb') as file:
@@ -17,6 +21,7 @@ def evaluate_model(model, df):
     return report
 
 if __name__ == "__main__":
+    run_another_script()
     model = load_model("../models/health_risk_model.pkl")
     data = pd.read_csv("../data/processed/health_clean.csv")
     evaluate_model(model, data)
