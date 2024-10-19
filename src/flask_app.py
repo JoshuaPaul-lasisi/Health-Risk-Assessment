@@ -1,12 +1,6 @@
 from flask import Flask, request, jsonify
 import pickle
 import pandas as pd
-import os
-
-def run_another_script():
-    os.system('model_evaluation.py')
-
-run_another_script()
 
 app = Flask(__name__)
 
