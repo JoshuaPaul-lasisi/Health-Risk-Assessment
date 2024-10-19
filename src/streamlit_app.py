@@ -1,9 +1,13 @@
 import streamlit as st
 import pickle
 import pandas as pd
+import os
+
+# Get the absolute path of the model file
+model_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'health_risk_model.pkl')
 
 # Load the trained model
-with open("../models/health_risk_model.pkl", "rb") as file:
+with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
 st.title("Health Risk Assessment")
