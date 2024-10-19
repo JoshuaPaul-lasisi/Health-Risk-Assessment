@@ -1,41 +1,33 @@
-# Imports
 import pandas as pd
 import numpy as np
 
-# Set pandas options to manage future warnings about downcasting
-pd.set_option('future.no_silent_downcasting', True)
+def load_data(file_path):
+    # Load the dataset
+    health = pd.read_csv(file_path)
+    return health
 
-# Loading the data
-health = pd.read_csv('../data/raw/framingham.csv')
-health.head()
+def clean_data(df):
+    # Fill missing values with the mean of each column
+    df['education'].fillna(df['education'].mean(), inplace=True)
+    df['cigsPerDay'].fillna(df['cigsPerDay'].mean(), inplace=True)
+    df['BPMeds'].fillna(df['BPMeds'].mean(), inplace=True)
+    df['totChol'].fillna(df['totChol'].mean(), inplace=True)
+    df['BMI'].fillna(df['BMI'].mean(), inplace=True)
+    df['heartRate'].fillna(df['heartRate'].mean(), inplace=True)
+    df['glucose'].fillna(df['glucose'].mean(), inplace=True)
+    return df
 
-# Express the missing values as percentages
-missing_values = health.isna().mean() *100
+def feature_engineering(df):
+    # Create any new features if necessary
+    df['age_bins'] = pd.cut(df['age'], bins=[30, 40, 50, 60, 70], labels=[1, 2, 3, 4])
+    return df
 
-# Reduce it to only columns with missing values
-missing_values = missing_values[missing_values > 0]
-missing_values
+def preprocess_data(file_path):
+    df = load_data(file_path)
+    df_clean = clean_data(df)
+    df_final = feature_engineering(df_clean)
+    return df_final
 
-# List of columns to impute with the median
-median_columns = ['cigsPerDay', 'totChol', 'BMI', 'heartRate', 'glucose']
-
-# Impute missing values with the median for each column
-for column in median_columns:
-    health[column] = health[column].fillna(health[column].median())
-
-# List of columns to impute with the median
-mode_columns = ['education', 'BPMeds']
-
-# Impute missing values with the median for each column
-for column in mode_columns:
-    health[column] = health[column].fillna(health[column].mode()[0])
-
-# Check if any missing values are left
-remaining_missing_values = health.isna().sum()
-print("Remaining missing values after imputation:", remaining_missing_values[remaining_missing_values > 0])
-
-# Save the processed data to the ../data/processed folder
-processed_file_path = '../data/processed/framingham_processed.csv'
-health.to_csv(processed_file_path, index=False)
-
-print(f"Processed data saved to {processed_file_path}")
+if __name__ == "__main__":
+    data = preprocess_data("../data/raw/framingham.csv")
+    data.to_csv("../data/processed/health_clean.csv", index=False)
