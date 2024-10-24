@@ -1,14 +1,16 @@
 import streamlit as st
-import pickle
+# import pickle
 import pandas as pd
-import os
+# import os
+import requests
 
-# Get the absolute path of the model file
-model_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'health_risk_model.pkl')
 
-# Load the trained model
-with open(model_path, 'rb') as file:
-    model = pickle.load(file)
+# # Get the absolute path of the model file
+# model_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'health_risk_model.pkl')
+
+# # Load the trained model
+# with open(model_path, 'rb') as file:
+#     model = pickle.load(file)
 
 st.title("Health Risk Assessment")
 
@@ -51,8 +53,28 @@ input_data = {
 # Convert to DataFrame for model input
 df = pd.DataFrame([input_data])
 
-# Predict the risk
-if st.button("Predict"):
-    prediction = model.predict(df)
-    risk = "high" if prediction[0] == 1 else "low"
-    st.write(f"Your risk of developing heart disease in 10 years is: {risk}")
+# Display the input data for the user to review
+st.write("Input data:", df)
+
+# Call the Flask API and display the prediction
+if st.button('Predict'):
+    try:
+        # Send a POST request to the Flask API
+        response = requests.post('http://127.0.0.1:5000/predict', json=input_data)
+        
+        # Check if the request is successful
+        if response.status_code == 200:
+            prediction = response.json()['prediction']
+            risk = 'high' if prediction == 1 else 'low'
+            st.success(f'Your risk of developing heart disease in 10 years is: {risk}')
+        else:
+            st.error(f'Error: {response.text}')
+    
+    except Exception as e:
+        st.error(f'Error: {str(e)}')
+
+# # Predict the risk
+# if st.button("Predict"):
+#     prediction = model.predict(df)
+#     risk = "high" if prediction[0] == 1 else "low"
+#     st.write(f"Your risk of developing heart disease in 10 years is: {risk}")
